@@ -1,1 +1,2 @@
+debug @ git+https://github.com/George-Ogden/dbg.git@v1.8.5#egg=debug
 pytest
