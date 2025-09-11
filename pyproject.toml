@@ -1,0 +1,29 @@
+[project]
+name = "pytest-dbg"
+version = "0.1.0"
+dynamic = ["dependencies"]
+requires-python = ">=3.11"
+
+[build-system]
+requires = ["setuptools>=62"]
+build-backend = "setuptools.build_meta"
+
+[project.entry-points.pytest11]
+dbg = "src.plugin"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+extend-select = ["I", "UP", "F", "E", "W", "ERA001"]
+extend-ignore = ["F811"]
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
