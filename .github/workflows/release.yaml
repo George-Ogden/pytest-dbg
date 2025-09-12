@@ -1,0 +1,11 @@
+name: Tag New Version and Release
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  test:
+    uses: George-Ogden/actions/.github/workflows/python-release.yaml@master
