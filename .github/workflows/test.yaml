@@ -11,3 +11,5 @@ on:
 jobs:
   test:
     uses: George-Ogden/actions/.github/workflows/python-test.yaml@master
+    with:
+      python-versions: "['3.11', '3.12', '3.13']"
