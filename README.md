@@ -1,10 +1,13 @@
 # pytest-dbg
+
 I wrote a version of the `dbg!` macro in Python: https://github.com/George-Ogden/dbg.
 It has a pretty printing library built into it.
 One of the core users suggested I use it for pytest equality assertions to make debugging failing tests easier.
 
 ## Example
+
 Here's a test:
+
 ```python
 import ast
 
@@ -13,6 +16,7 @@ def test_ast():
 ```
 
 Without this plugin, you get the following output:
+
 ```
 pytest ast_test.py -v
 =================================== FAILURES ===================================
@@ -28,7 +32,9 @@ E        +    where <class 'ast.List'> = ast.List
 
 ast_test.py:4: AssertionError
 ```
+
 With this plugin, you get a clearer output:
+
 ```
 pytest ast_test.py -v
 =================================== FAILURES ===================================
@@ -49,12 +55,15 @@ E           )
 
 ast_test.py:4: AssertionError
 ```
+
 It looks even better in color!
 
 # Usage/Install
+
 ```bash
 pip install git+https://github.com/George-Ogden/pytest-dbg
 ```
+
 Then use `pytest` as normal!
 
 For more advanced usage, see https://docs.pytest.org/en/stable/how-to/plugins.html.
