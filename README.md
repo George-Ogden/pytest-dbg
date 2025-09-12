@@ -1,6 +1,6 @@
 # pytest-dbg
 
-I wrote a version of the `dbg!` macro in Python: https://github.com/George-Ogden/dbg.
+I wrote a version of Rust's `dbg!` macro in Python: https://github.com/George-Ogden/dbg.
 It has a pretty printing library built into it.
 One of the core users suggested I use it for pytest equality assertions to make debugging failing tests easier.
 
@@ -64,6 +64,6 @@ It looks even better in color!
 pip install git+https://github.com/George-Ogden/pytest-dbg
 ```
 
-Then use `pytest` as normal!
+Then use pytest as normal!
 
 For more advanced usage, see https://docs.pytest.org/en/stable/how-to/plugins.html.
