@@ -10,4 +10,4 @@ permissions:
 
 jobs:
   release:
-    uses: George-Ogden/actions/.github/workflows/python-release.yaml@v1
+    uses: George-Ogden/actions/.github/workflows/python-release.yaml@v2
