@@ -4,10 +4,11 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
   release:
-    uses: George-Ogden/actions/.github/workflows/python-release.yaml@v2
+    uses: George-Ogden/actions/.github/workflows/python-release.yaml@v3.0.1
