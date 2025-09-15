@@ -67,3 +67,8 @@ pip install git+https://github.com/George-Ogden/pytest-dbg
 Then use pytest as normal!
 
 For more advanced usage, see https://docs.pytest.org/en/stable/how-to/plugins.html.
+
+## Versioning
+
+This project follows https://github.com/George-Ogden/dbg for version tags (not semver).
+These are automatically updated, so will never be too far behind.
