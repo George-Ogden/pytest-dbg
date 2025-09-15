@@ -1,4 +1,4 @@
-name: Sync Version from External Repository
+name: Sync Version from dbg
 
 on:
   schedule:
@@ -77,4 +77,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr create --title "Automated version sync" --body "Update version to ${{ steps.compare.outputs.new_version }}" --head "$BRANCH_NAME" --base "master"
+          gh pr create --title "Automated Version Sync" --body "Update version to ${{ steps.compare.outputs.new_version }}" --head "$BRANCH_NAME" --base "master"
