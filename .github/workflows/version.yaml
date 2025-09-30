@@ -75,6 +75,6 @@ jobs:
       - name: Create Pull Request
         if: steps.compare.outputs.update_needed == 'true'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           gh pr create --title "Automated Version Sync" --body "Update version to ${{ steps.compare.outputs.new_version }}" --head "$BRANCH_NAME" --base "master"
