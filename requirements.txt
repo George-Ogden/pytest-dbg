@@ -1,2 +1,2 @@
-debug @ git+https://github.com/George-Ogden/dbg.git@v1.9.2#egg=debug
+debug @ git+https://github.com/George-Ogden/dbg.git@v2.1.0#egg=debug
 pytest
