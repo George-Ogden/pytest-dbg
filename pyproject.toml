@@ -1,6 +1,6 @@
 [project]
 name = "pytest-dbg"
-version = "2.3.0"
+version = "2.3.1"
 dynamic = ["dependencies"]
 requires-python = ">=3.11,<3.14"
 
