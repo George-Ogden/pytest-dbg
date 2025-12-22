@@ -1,5 +1,5 @@
 -r requirements.txt
-git+https://github.com/George-Ogden/mirror-rorrim
-git+https://github.com/George-Ogden/mypy-pytest
+git+https://github.com/George-Ogden/mirror-rorrim; python_version >= "3.12"
+git+https://github.com/George-Ogden/mypy-pytest; python_version >= "3.12"
 mypy
 pre-commit
