@@ -1,4 +1,9 @@
-def test_bar_fixture(pytester):
+import pytest
+from pytest import Pytester
+
+
+@pytest.mark.typed
+def test_bar_fixture(pytester: Pytester) -> None:
     pytester.makepyfile("""
         import ast
         def test_error():

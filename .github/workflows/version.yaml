@@ -23,28 +23,29 @@ jobs:
       - name: Clone dbg
         run: |
           git clone https://github.com/George-Ogden/dbg.git /tmp/external-repo
-          cd /tmp/external-repo
-          VERSION=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")
-          echo $VERSION | tee /tmp/new-version.txt
+
+      - name: Read new version
+        run: |
+          NEW_VERSION=$(cat /tmp/external-repo/version.txt)
+          echo "New version: '$NEW_VERSION'"
+          echo "NEW_VERSION=${NEW_VERSION}" >> "$GITHUB_ENV"
+
+      - name: Read current version
+        run: |
+          CURRENT_VERSION=$(cat version.txt)
+          echo "Current version: '$CURRENT_VERSION'"
+          echo "CURRENT_VERSION=${CURRENT_VERSION}" >> "$GITHUB_ENV"
 
       - name: Compare versions
         id: compare
         run: |
-          CURRENT_VERSION=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")
-          NEW_VERSION=$(cat /tmp/new-version.txt)
+          BRANCH_NAME="update-version-${{ env.NEW_VERSION }}"
+          echo "BRANCH_NAME=${BRANCH_NAME}"  >> "$GITHUB_ENV"
 
-          echo "Current version: '$CURRENT_VERSION'"
-          echo "New version: '$NEW_VERSION'"
-
-          BRANCH_NAME="update-version-$NEW_VERSION"
-
-          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ] && ! ( git ls-remote --heads origin "$BRANCH_NAME" | grep -q "$BRANCH_NAME" ); then
-            echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
-            echo "update_needed=true" >> $GITHUB_OUTPUT
-            echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
-            echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          if [ "${{ env.NEW_VERSION }}" != "${{ env.CURRENT_VERSION }}" ] && ! ( git ls-remote --heads origin "${{ env.BRANCH_NAME }}" | grep -q "${{ env.BRANCH_NAME }}" ); then
+            echo "update_needed=true" >> "$GITHUB_OUTPUT"
           else
-            echo "update_needed=false" >> $GITHUB_OUTPUT
+            echo "update_needed=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Create pull request branch and setup Git identity
@@ -52,25 +53,21 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -b "$BRANCH_NAME"
+          git checkout -b "${{ env.BRANCH_NAME }}"
 
       - name: Update version file
         if: steps.compare.outputs.update_needed == 'true'
         run: |
-          NEW_VERSION=$(cat /tmp/new-version.txt)
+          echo ${{ env.NEW_VERSION }} > version.txt
+          sed "s,^debug @.*,debug @ git+https://github.com/George-Ogden/dbg.git@v${{ env.NEW_VERSION }}#egg=debug," -i requirements.txt
 
-          cat pyproject.toml | sed "s/^version.*/version = \"$NEW_VERSION\"/" | tee /tmp/pyproject.toml
-          cat requirements.txt | sed "s,^debug @.*,debug @ git+https://github.com/George-Ogden/dbg.git@v$NEW_VERSION#egg=debug," | tee /tmp/requirements.txt
-          cp /tmp/pyproject.toml pyproject.toml
-          cp /tmp/requirements.txt requirements.txt
-
-          git add pyproject.toml requirements.txt
+          git add version.txt requirements.txt
           git commit -m "Automated version change"
 
       - name: Push changes
         if: steps.compare.outputs.update_needed == 'true'
         run: |
-          git push origin "$BRANCH_NAME"
+          git push origin "${{ env.BRANCH_NAME }}"
 
       - name: Create Pull Request
         if: steps.compare.outputs.update_needed == 'true'
