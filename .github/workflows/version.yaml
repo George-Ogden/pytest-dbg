@@ -23,14 +23,12 @@ jobs:
       - name: Clone dbg
         run: |
           git clone https://github.com/George-Ogden/dbg.git /tmp/external-repo
-          cd /tmp/external-repo
-          VERSION=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")
-          echo $VERSION | tee /tmp/new-version.txt
+          cp /tmp/external-repo/version.txt /tmp/new-version.txt
 
       - name: Compare versions
         id: compare
         run: |
-          CURRENT_VERSION=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")
+          CURRENT_VERSION=$(cat /tmp/external-repo/version.txt)
           NEW_VERSION=$(cat /tmp/new-version.txt)
 
           echo "Current version: '$CURRENT_VERSION'"
@@ -59,12 +57,11 @@ jobs:
         run: |
           NEW_VERSION=$(cat /tmp/new-version.txt)
 
-          cat pyproject.toml | sed "s/^version.*/version = \"$NEW_VERSION\"/" | tee /tmp/pyproject.toml
+          cp /tmp/new-version.txt version.txt
           cat requirements.txt | sed "s,^debug @.*,debug @ git+https://github.com/George-Ogden/dbg.git@v$NEW_VERSION#egg=debug," | tee /tmp/requirements.txt
-          cp /tmp/pyproject.toml pyproject.toml
           cp /tmp/requirements.txt requirements.txt
 
-          git add pyproject.toml requirements.txt
+          git add version.txt requirements.txt
           git commit -m "Automated version change"
 
       - name: Push changes
