@@ -1,29 +1,19 @@
 [project]
 name = "pytest-dbg"
-version = "2.3.2"
-dynamic = ["dependencies"]
 requires-python = ">=3.11,<3.14"
+authors = [{name = "George Ogden"}]
+license = {file = "LICENSE"}
+readme = "README.md"
+dynamic = ["dependencies", "version"]
 
-[build-system]
-requires = ["setuptools>=62"]
-build-backend = "setuptools.build_meta"
 
 [project.entry-points.pytest11]
 dbg = "plugin"
 
-[tool.ruff]
-line-length = 100
-
-[tool.ruff.lint]
-extend-select = ["I", "UP", "F", "E", "W", "ERA001"]
-extend-ignore = ["F811"]
-
-[tool.ruff.lint.isort]
-force-sort-within-sections = true
-
-[tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
-
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
+version = {file = ["version.txt"]}
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
