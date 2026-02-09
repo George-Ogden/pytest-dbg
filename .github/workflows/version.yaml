@@ -53,7 +53,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -b "${{ env.BRANCH_NAME }}"
+          git checkout -b "${{ env.BRANCH_NAME }}" || true
 
       - name: Update version file
         if: steps.compare.outputs.update_needed == 'true'
@@ -63,6 +63,8 @@ jobs:
 
           git add version.txt requirements.txt
           git commit -m "Automated version change"
+          git pull origin "${{ env.BRANCH_NAME }}" --no-edit --rebase=true -X ours || true
+          git push origin "${{ env.BRANCH_NAME }}"
 
       - name: Push changes
         if: steps.compare.outputs.update_needed == 'true'
@@ -74,4 +76,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          gh pr create --title "Automated Version Sync" --body "Update version to ${{ steps.compare.outputs.new_version }}" --head "$BRANCH_NAME" --base "master"
+          gh pr create --title "Automated Version Sync" --body "Update version to ${{ env.NEW_VERSION }}" --head "$BRANCH_NAME" --base "master"
