@@ -1,12 +1,14 @@
-default_stages: ["pre-commit"]
-default_install_hook_types: ["pre-commit", "commit-msg"]
+default_stages: [pre-commit]
+default_install_hook_types: [pre-commit, commit-msg]
 
 ci:
-  skip: [mirror-check]
+  skip:
+    - mirror-check
+    - no-commit-to-branch
 
 repos:
   - repo: https://github.com/George-Ogden/mirror-rorrim/
-    rev: v0.4.2
+    rev: v0.4.5
     hooks:
       - id: mirror-check
         fail_fast: true
@@ -14,13 +16,15 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks/
     rev: v6.0.0
     hooks:
+      - id: no-commit-to-branch
+        fail_fast: true
       - id: end-of-file-fixer
       - id: mixed-line-ending
       - id: trailing-whitespace
       - id: requirements-txt-fixer
 
   - repo: https://github.com/George-Ogden/linter/
-    rev: v1.2.2
+    rev: v2.0.0
     hooks:
       - id: lint
         args: [--fix]
@@ -29,29 +33,28 @@ repos:
     rev: v0.11.0
     hooks:
       - id: shellcheck
-        args: ["--severity=warning"]
+        args: [--severity=warning]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit/
-    rev: v0.14.10
+    rev: v0.15.0
     hooks:
-      - id: ruff-format
       - id: ruff-check
-        args:
-          - --fix
+        args: [--fix]
+      - id: ruff-format
+        args: [--config, format.skip-magic-trailing-comma = true]
 
   - repo: https://github.com/pre-commit/mirrors-prettier/
     rev: v4.0.0-alpha.8
     hooks:
       - id: prettier
-        additional_dependencies: [prettier]
 
   - repo: https://github.com/rhysd/actionlint/
-    rev: v1.7.9
+    rev: v1.7.10
     hooks:
       - id: actionlint
 
   - repo: https://github.com/George-Ogden/pre-commit-hooks/
-    rev: v2.1.0
+    rev: v2.2.0
     hooks:
       - id: check-merge-conflict
       - id: dbg-check
