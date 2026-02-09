@@ -12,11 +12,6 @@ def test_bar_fixture(pytester: Pytester) -> None:
 
     result = pytester.runpytest("-v")
 
-    result.stdout.fnmatch_lines(
-        [
-            "*-*value=1,",
-            "*+*value=0,",
-        ]
-    )
+    result.stdout.fnmatch_lines(["*-*value=1,", "*+*value=0,"])
 
     assert result.ret != 0
