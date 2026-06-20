@@ -1,2 +1,2 @@
 debug @ git+https://github.com/George-Ogden/dbg.git@v3.0.1#egg=debug
-pytest>=9,<10.0.0
+pytest>=9.1,<9.2
