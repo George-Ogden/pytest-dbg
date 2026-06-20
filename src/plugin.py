@@ -17,5 +17,10 @@ def pytest_assertrepr_compare(config: Config, op: str, left: Any, right: Any) ->
         if left_repr != right_repr:
             highlighter = config.get_terminal_writer()._highlight
             verbose = config.get_verbosity(Config.VERBOSITY_ASSERTIONS)
-            return ["", *_compare_eq_any(left_repr, right_repr, highlighter, verbose)]
+            return [
+                "",
+                *_compare_eq_any(
+                    left_repr, right_repr, highlighter, verbose, assertion_text_diff_style="ndiff"
+                ),
+            ]
     return None
