@@ -11,6 +11,7 @@ Here's a test:
 ```python
 import ast
 
+
 def test_ast():
     assert ast.List([ast.Constant(0)]) == ast.List([ast.Constant(1)])
 ```
