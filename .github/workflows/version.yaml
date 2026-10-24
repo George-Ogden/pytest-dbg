@@ -77,3 +77,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           gh pr create --title "Automated Version Sync" --body "Update version to ${{ env.NEW_VERSION }}" --head "$BRANCH_NAME" --base "m" || true
+          gh pr merge --auto --merge "$BRANCH_NAME" || true
